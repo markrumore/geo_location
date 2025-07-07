@@ -1,0 +1,80 @@
+name: fuzzy_matching_component
+type: command
+inputs:
+  input_customers:
+    type: uri_file
+  input_unmatched:
+    type: uri_file
+  output_path:
+    type: string
+  keep_all:
+    type: boolean
+    optional: true
+    default: false
+  zip_col1:
+    type: string
+    optional: False
+    default: POSTAL_CODE
+  name_col1:
+    type: string
+    optional: False
+    default: CUSTOMER_DESC
+  address_col1:
+    type: string
+    optional: False
+    default: STREET_ADDRESS
+  lat_col1:
+    type: string
+    optional: true
+    default: LATITUDE_COORDINATE
+  long_col1:
+    type: string
+    optional: true
+    default: LONGITUDE_COORDINATE
+  zip_col2:
+    type: string
+    optional: False
+  name_col2:
+    type: string
+    optional: False
+  address_col2:
+    type: string
+    optional: False
+  lat_col2:
+    type: string
+    optional: true
+  long_col2:
+    type: string
+    optional: true
+  threshold:
+    type: integer
+    optional: true
+    default: 95
+  lat_long_tolerance:
+    type: number
+    optional: true
+    default: 3
+outputs:
+  matched_results:
+    type: uri_file
+code: .
+environment: azureml:aml-job-ops-env@latest
+command: >-
+  python run_fuzzy_matching.py
+  --input_customers ${{inputs.input_customers}}
+  --input_unmatched ${{inputs.input_unmatched}}
+  --output_path ${{inputs.output_path}}
+  --matched_results ${{outputs.matched_results}}
+  $[[--keep_all]]
+  --zip_col1 ${{inputs.zip_col1}}
+  --name_col1 ${{inputs.name_col1}}
+  --address_col1 ${{inputs.address_col1}}
+  $[[--lat_col1 ${{inputs.lat_col1}}]]
+  $[[--long_col1 ${{inputs.long_col1}}]]
+  --zip_col2 ${{inputs.zip_col2}}
+  --name_col2 ${{inputs.name_col2}}
+  --address_col2 ${{inputs.address_col2}}
+  $[[--lat_col2 ${{inputs.lat_col2}}]]
+  $[[--long_col2 ${{inputs.long_col2}}]]
+  $[[--threshold ${{inputs.threshold}}]]
+  $[[--lat_long_tolerance ${{inputs.lat_long_tolerance}}]]

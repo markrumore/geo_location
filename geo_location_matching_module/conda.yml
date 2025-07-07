@@ -1,0 +1,16 @@
+name: aml_job_ops
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - azure-ai-ml
+      - azure-identity
+      - azure-keyvault-secrets
+      - snowflake-connector-python
+      - pandas
+      - pyyaml
+      - requests
+      - tqdm
+      - rapidfuzz
